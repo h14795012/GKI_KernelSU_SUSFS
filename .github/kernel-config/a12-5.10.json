@@ -1,5 +1,6 @@
 {
   "include": [
+    {"kernel_version": "5.10.136-android12-2022-10"},
     {"kernel_version": "5.10.136-android12-2022-11"}
   ]
 }
