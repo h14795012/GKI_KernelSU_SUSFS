@@ -27,6 +27,7 @@ runs:
 
         if [[ "$SUBLEVEL" -le 209 ]]; then
           sed -i -e 's/goto show_pad;/return 0;/' ./fs/proc/task_mmu.c
+          sed -i -e 's/end = VMA_PAD_START(vma);/end = vma->vm_end;/' ./fs/proc/task_mmu.c
         fi
 
         if [[ "$SUBLEVEL" -le 117 ]]; then
@@ -54,6 +55,7 @@ runs:
 
         if [[ "$SUBLEVEL" -le 209 && "${{ inputs.os_patch_level }}" != "2024-05" ]]; then
           sed -i -e 's/goto show_pad;/return 0;/' ./fs/proc/task_mmu.c
+          sed -i -e 's/end = VMA_PAD_START(vma);/end = vma->vm_end;/' ./fs/proc/task_mmu.c
         fi
 
     - name: Apply Android 13 5.15 Fixes
@@ -80,6 +82,7 @@ runs:
 
         if [[ "$SUBLEVEL" -le 148 && "${{ inputs.os_patch_level }}" != "2024-05" ]]; then
           sed -i -e 's/goto show_pad;/return 0;/' ./fs/proc/task_mmu.c
+          sed -i -e 's/end = VMA_PAD_START(vma);/end = vma->vm_end;/' ./fs/proc/task_mmu.c
         fi
 
     - name: Apply Android 14 5.15 Fixes
@@ -91,6 +94,7 @@ runs:
 
         if [[ "$SUBLEVEL" -le 148 && "${{ inputs.os_patch_level }}" != "2024-05" ]]; then
           sed -i -e 's/goto show_pad;/return 0;/' ./fs/proc/task_mmu.c
+          sed -i -e 's/end = VMA_PAD_START(vma);/end = vma->vm_end;/' ./fs/proc/task_mmu.c
         fi
 
     - name: Apply Android 14 6.1 Fixes
@@ -106,6 +110,7 @@ runs:
 
         if [[ "$SUBLEVEL" -le 75 && "${{ inputs.os_patch_level }}" != "2024-05" ]]; then
           sed -i -e 's/goto show_pad;/return 0;/' ./fs/proc/task_mmu.c
+          sed -i -e 's/end = VMA_PAD_START(vma);/end = vma->vm_end;/' ./fs/proc/task_mmu.c
         fi
 
     - name: Apply Android 15 6.6 Fixes
