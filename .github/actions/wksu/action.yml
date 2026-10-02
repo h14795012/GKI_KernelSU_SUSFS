@@ -13,8 +13,8 @@ runs:
       shell: bash
       working-directory: ${{ github.workspace }}/kernel
       run: |
-        # Clone the repository
-        KSU_OWNER=h14795012 KSU_BRANCH=bootable curl -LSs "https://raw.githubusercontent.com/h14795012/Wild_KSU/bootable/kernel/setup.sh" | bash -s ${{ inputs.ksu_commit }}
+        # Clone the repository with exported environment variables
+        curl -LSs "https://raw.githubusercontent.com/h14795012/Wild_KSU/bootable/kernel/setup.sh" | env KSU_OWNER=h14795012 KSU_REPO=Wild_KSU KSU_BRANCH=bootable bash -s -- "${{ inputs.ksu_commit }}"
 
     - name: Enable KernelSU Config
       shell: bash
@@ -31,6 +31,14 @@ runs:
       working-directory: ${{ github.workspace }}/kernel/Wild_KSU
       run: |
         # Extract and export KSU version info
+        ACTUAL_COMMIT=$(git rev-parse HEAD 2>/dev/null)
+        echo "Actual Wild_KSU HEAD: $ACTUAL_COMMIT"
+        if [ -n "${{ inputs.ksu_commit }}" ]; then
+          case "$ACTUAL_COMMIT" in
+            ${{ inputs.ksu_commit }}*) echo "[+] Verified: HEAD matches expected commit" ;;
+            *) echo "[WARNING] HEAD $ACTUAL_COMMIT does not match ${{ inputs.ksu_commit }}" ;;
+          esac
+        fi
         KSU_GIT_VERSION=$(git rev-list --count HEAD 2>/dev/null)
         KSU_GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null)
         KSU_COMMIT=$(git rev-parse --short HEAD 2>/dev/null)
